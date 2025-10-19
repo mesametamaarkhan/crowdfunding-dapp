@@ -21,11 +21,7 @@ export default function CrowdfundingPanel({ account }) {
   async function createCampaign() {
     try {
       const contract = await getContract();
-      const tx = await contract.createCampaign(
-        title,
-        desc,
-        ethers.parseEther(goal)
-      );
+      const tx = await contract.createCampaign(title, desc, ethers.parseEther(goal));
       await tx.wait();
       alert("✅ Campaign created successfully!");
       setTitle("");
@@ -41,9 +37,7 @@ export default function CrowdfundingPanel({ account }) {
   async function contribute() {
     try {
       const contract = await getContract();
-      const tx = await contract.contribute(campaignId, {
-        value: ethers.parseEther(amount),
-      });
+      const tx = await contract.contribute(campaignId, { value: ethers.parseEther(amount) });
       await tx.wait();
       alert("✅ Contribution successful!");
       fetchCampaigns();
@@ -75,22 +69,18 @@ export default function CrowdfundingPanel({ account }) {
 
       for (let i = 1; i <= count; i++) {
         const data = await contract.getCampaign(i);
-        fetched.push({
-          id: data[0].toString(),
-          creator: data[1],
-          title: data[2],
-          description: data[3],
-          goal: ethers.formatEther(data[4]),
-          raised: ethers.formatEther(data[5]),
-          status:
-            data[6] === 0
-              ? "Active"
-              : data[6] === 1
-              ? "Completed"
-              : "Withdrawn",
-        });
-      }
+        const statuses = ["Active", "Completed", "Withdrawn"];
+fetched.push({
+  id: data[0].toString(),
+  creator: data[1],
+  title: data[2],
+  description: data[3],
+  goal: ethers.formatEther(data[4]),
+  raised: ethers.formatEther(data[5]),
+  status: statuses[Number(data[6])] || "Unknown",
+});
 
+      }
       setCampaigns(fetched);
     } catch (err) {
       console.error("Failed to fetch campaigns:", err);
@@ -105,63 +95,62 @@ export default function CrowdfundingPanel({ account }) {
 
   return (
     <div className="panel">
-      <h2 className="section-title">Crowdfunding Campaigns</h2>
+      <h2 className="section-title">🎯 Crowdfunding Campaigns</h2>
 
       {/* Create Campaign */}
       <div className="campaign-section">
         <h3 className="sub-title">Create New Campaign</h3>
-        <input
-          type="text"
-          placeholder="Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className="input-field"
-        />
-        <input
-          type="text"
-          placeholder="Description"
-          value={desc}
-          onChange={(e) => setDesc(e.target.value)}
-          className="input-field"
-        />
-        <input
-          type="number"
-          placeholder="Goal in ETH"
-          value={goal}
-          onChange={(e) => setGoal(e.target.value)}
-          className="input-field"
-        />
-        <button onClick={createCampaign} className="btn btn-success">
-          Create Campaign
-        </button>
+        <div className="form-group">
+          <input
+            type="text"
+            placeholder="Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="input-field"
+          />
+          <textarea
+            placeholder="Description"
+            value={desc}
+            onChange={(e) => setDesc(e.target.value)}
+            className="input-field textarea"
+          />
+          <input
+            type="number"
+            placeholder="Goal in ETH"
+            value={goal}
+            onChange={(e) => setGoal(e.target.value)}
+            className="input-field"
+          />
+          <button onClick={createCampaign} className="btn btn-success full-btn">
+            🚀 Create Campaign
+          </button>
+        </div>
       </div>
 
       <hr className="divider" />
 
       {/* Contribute / Withdraw */}
       <div className="campaign-section">
-        <h3 className="sub-title">Contribute / Withdraw</h3>
-        <input
-          type="text"
-          placeholder="Campaign ID"
-          value={campaignId}
-          onChange={(e) => setCampaignId(e.target.value)}
-          className="input-field"
-        />
-        <input
-          type="number"
-          placeholder="Amount (ETH)"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-          className="input-field"
-        />
-        <div className="button-group">
-          <button onClick={contribute} className="btn btn-info">
-            Contribute
-          </button>
-          <button onClick={withdraw} className="btn btn-warning">
-            Withdraw
-          </button>
+        <h3 className="sub-title">💰 Contribute or Withdraw</h3>
+        <div className="form-group">
+          <input
+            type="text"
+            placeholder="Campaign ID"
+            value={campaignId}
+            onChange={(e) => setCampaignId(e.target.value)}
+            className="input-field"
+          />
+          <input
+            type="number"
+            placeholder="Amount (ETH)"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            className="input-field"
+          />
+          <div className="button-group">
+            <button onClick={contribute} className="btn btn-info">Contribute</button>
+            <button onClick={withdraw} className="btn btn-warning">Withdraw</button>
+          </div>
         </div>
       </div>
 
@@ -169,30 +158,38 @@ export default function CrowdfundingPanel({ account }) {
 
       {/* Campaign List */}
       <div className="campaign-list">
-        <h3 className="sub-title">All Campaigns</h3>
+        <h3 className="sub-title">📋 All Campaigns</h3>
         {loading ? (
-          <p>Loading campaigns...</p>
+          <p className="loading-text">Loading campaigns...</p>
         ) : campaigns.length === 0 ? (
-          <p>No campaigns found.</p>
+          <p className="empty-text">No campaigns found.</p>
         ) : (
-          <ul className="campaign-ul">
+          <div className="campaign-grid">
             {campaigns.map((c) => (
-              <li key={c.id} className="campaign-item">
+              <div key={c.id} className="campaign-card">
                 <div className="campaign-header">
                   <span className="campaign-id">#{c.id}</span>
                   <span className={`status-badge status-${c.status.toLowerCase()}`}>
                     {c.status}
                   </span>
                 </div>
-                <h4>{c.title}</h4>
-                <p>{c.description}</p>
-                <p>
-                  🎯 <b>Goal:</b> {c.goal} ETH | 💰 <b>Raised:</b> {c.raised} ETH
+                <h4 className="campaign-title">{c.title}</h4>
+                <p className="campaign-desc">{c.description}</p>
+                <div className="progress-bar">
+                  <div
+                    className="progress-fill"
+                    style={{
+                      width: `${Math.min((c.raised / c.goal) * 100, 100)}%`,
+                    }}
+                  ></div>
+                </div>
+                <p className="campaign-meta">
+                  🎯 <b>Goal:</b> {c.goal} ETH &nbsp; | &nbsp; 💰 <b>Raised:</b> {c.raised} ETH
                 </p>
-                <p className="creator-text">👤 Creator: {c.creator}</p>
-              </li>
+                <p className="creator-text">👤 {c.creator}</p>
+              </div>
             ))}
-          </ul>
+          </div>
         )}
       </div>
     </div>

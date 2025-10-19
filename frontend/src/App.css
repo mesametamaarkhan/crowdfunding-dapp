@@ -425,3 +425,155 @@ body {
   color: #666;
   margin-top: 0.3rem;
 }
+
+/* --- Crowdfunding Panel Enhancements --- */
+.panel {
+  max-width: 850px;
+  margin: 40px auto;
+  background: #fdfdfd;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.section-title {
+  text-align: center;
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 25px;
+}
+
+.sub-title {
+  color: #444;
+  margin-bottom: 10px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.input-field {
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.btn {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.btn-success { background: #28a745; color: white; }
+.btn-info { background: #007bff; color: white; }
+.btn-warning { background: #ffc107; color: #333; }
+.full-btn { width: 100%; }
+
+.button-group {
+  display: flex;
+  gap: 10px;
+}
+
+.divider {
+  border: 0;
+  border-top: 1px solid #ddd;
+  margin: 30px 0;
+}
+
+.campaign-list {
+  margin-top: 20px;
+}
+
+.campaign-grid {
+  display: grid;
+  gap: 20px;
+}
+
+.campaign-card {
+  background: #fff;
+  border: 1px solid #e6e6e6;
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.2s;
+}
+
+.campaign-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.campaign-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.campaign-id {
+  font-weight: bold;
+  color: #555;
+}
+
+/* Status badge styling */
+.status-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: 600;
+  text-transform: capitalize;
+  color: #fff; /* Make text white for contrast */
+}
+
+/* Individual status colors */
+.status-approved {
+  background-color: #16a34a; /* green */
+}
+
+.status-pending {
+  background-color: #eab308; /* yellow */
+  color: #000; /* black text for better contrast */
+}
+
+.status-rejected {
+  background-color: #dc2626; /* red */
+}
+
+.status-none,
+.status-unknown {
+  background-color: #6b7280; /* gray */
+}
+
+
+.progress-bar {
+  background: #f1f1f1;
+  height: 8px;
+  border-radius: 6px;
+  margin: 10px 0;
+  overflow: hidden;
+}
+
+.progress-fill {
+  background: #28a745;
+  height: 100%;
+}
+
+.campaign-meta, .creator-text {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.loading-text, .empty-text {
+  text-align: center;
+  color: #777;
+  margin-top: 15px;
+}
+
