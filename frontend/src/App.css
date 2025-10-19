@@ -1,42 +1,427 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
+/* ==== GLOBAL STYLES ==== */
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, sans-serif;
+  background: linear-gradient(145deg, #f8fafc, #eef2f6);
+  color: #222;
+  min-height: 100vh;
+  line-height: 1.6;
+
+  /* Center the whole app vertically & horizontally */
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 2rem;
+}
+
+.app-container {
+  max-width: 720px;
+  width: 100%;
+  margin: auto;
+  animation: fadeIn 0.4s ease;
+}
+
+/* ==== TITLE ==== */
+.app-title {
+  font-size: 2.3rem;
   text-align: center;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: #3730a3;
+  letter-spacing: 0.3px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* ==== PANEL STYLES ==== */
+.panel {
+  background: #ffffff;
+  border: 1px solid #e1e4e8;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2.2rem;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-@keyframes logo-spin {
+.panel:hover {
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+  transform: translateY(-3px);
+}
+
+.section-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #3b3b98;
+  margin-bottom: 1.2rem;
+  border-left: 4px solid #3b3b98;
+  padding-left: 0.6rem;
+  letter-spacing: 0.2px;
+  align-self: flex-start;
+}
+
+/* ==== INPUTS ==== */
+.input-field {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  margin: 0.5rem 0;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 0.96rem;
+  background-color: #f3f4f6; /* softer light gray */
+  color: #111; /* ensure text is visible */
+  transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+}
+
+.input-field:focus {
+  border-color: #3b3b98;
+  outline: none;
+  background-color: #eef2ff; /* subtle focus color instead of white */
+  box-shadow: 0 0 0 4px rgba(59, 59, 152, 0.15);
+  color: #111;
+}
+
+.input-field::placeholder {
+  color: #9ca3af;
+}
+
+
+/* ==== BUTTONS ==== */
+.btn {
+  display: inline-block;
+  border: none;
+  border-radius: 10px;
+  padding: 0.7rem 1.4rem;
+  margin: 0.4rem 0.3rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  color: white;
+  font-weight: 500;
+  transition: background-color 0.2s, transform 0.15s ease, box-shadow 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+}
+
+.btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.btn-primary {
+  background-color: #3b3b98;
+}
+
+.btn-primary:hover {
+  background-color: #2e2e82;
+}
+
+.btn-success {
+  background-color: #16a34a;
+}
+
+.btn-success:hover {
+  background-color: #128038;
+}
+
+.btn-warning {
+  background-color: #eab308;
+  color: #1f1f1f;
+}
+
+.btn-warning:hover {
+  background-color: #ca8a04;
+}
+
+.btn-info {
+  background-color: #2563eb;
+}
+
+.btn-info:hover {
+  background-color: #1e40af;
+}
+
+/* ==== STATUS TEXT ==== */
+.status-text {
+  margin-top: 1rem;
+  font-weight: 500;
+  color: #3b3b98;
+  text-align: center;
+  background-color: #f1f5f9;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  display: inline-block;
+}
+
+/* ==== SUBTITLES & DIVIDERS ==== */
+.sub-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.6rem;
+  margin-top: 1rem;
+  text-align: left;
+  width: 100%;
+}
+
+.divider {
+  margin: 1.5rem 0;
+  border: none;
+  border-top: 1px solid #e0e0e0;
+  width: 100%;
+}
+
+/* ==== BUTTON GROUP ==== */
+.button-group {
+  margin-top: 0.7rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+/* ==== CONNECT WALLET ==== */
+.wallet-panel {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 1rem 1.4rem;
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.wallet-panel:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 20px rgba(0, 0, 0, 0.08);
+}
+
+.wallet-status {
+  font-size: 0.95rem;
+  color: #1e293b;
+}
+
+.wallet-status b {
+  color: #16a34a;
+}
+
+/* ==== ANIMATIONS ==== */
+@keyframes fadeIn {
   from {
-    transform: rotate(0deg);
+    opacity: 0;
+    transform: translateY(10px);
   }
   to {
-    transform: rotate(360deg);
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+/* ==== RESPONSIVE ==== */
+@media (max-width: 600px) {
+  body {
+    padding: 1.2rem;
+    align-items: flex-start;
+  }
+
+  .app-container {
+    padding: 0;
+  }
+
+  .panel {
+    padding: 1.3rem;
+  }
+
+  .btn {
+    width: 100%;
+    margin: 0.4rem 0;
+  }
+
+  .wallet-panel {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
   }
 }
 
-.card {
-  padding: 2em;
+/* General layout */
+.panel {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  max-width: 900px;
+  margin: 2rem auto;
+  font-family: "Segoe UI", sans-serif;
+  color: #222;
 }
 
-.read-the-docs {
-  color: #888;
+.section-title {
+  text-align: center;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.sub-title {
+  margin-top: 1.5rem;
+  color: #444;
+  border-left: 4px solid #007bff;
+  padding-left: 8px;
+}
+
+.input-field {
+  width: 100%;
+  margin: 0.4rem 0;
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+  transition: border 0.3s ease;
+}
+
+.input-field:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.btn {
+  margin-top: 0.6rem;
+  padding: 0.6rem 1.4rem;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  font-weight: 500;
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.btn-success { background: #28a745; }
+.btn-warning { background: #ffc107; color: #000; }
+.btn-info { background: #17a2b8; }
+
+.btn:hover {
+  transform: scale(1.03);
+  opacity: 0.9;
+}
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.6rem;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 2rem 0;
+}
+
+/* Campaign list styling */
+.campaign-list {
+  margin-top: 2rem;
+}
+
+.campaign-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.campaign-card {
+  background: #f9fafb;
+  border-radius: 10px;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.campaign-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.campaign-card h4 {
+  color: #007bff;
+  margin-bottom: 0.3rem;
+}
+
+.campaign-card p {
+  margin: 0.2rem 0;
+  font-size: 0.9rem;
+}
+
+.empty {
+  text-align: center;
+  color: #777;
+}
+
+.campaign-list {
+  margin-top: 1rem;
+}
+
+.campaign-ul {
+  list-style: none;
+  padding: 0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.campaign-item {
+  background: #f9fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 0.8rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.campaign-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+
+.campaign-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.campaign-id {
+  font-weight: bold;
+  color: #555;
+}
+
+.status-badge {
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  color: white;
+}
+
+.status-active {
+  background-color: #2563eb;
+}
+
+.status-completed {
+  background-color: #16a34a;
+}
+
+.status-withdrawn {
+  background-color: #ca8a04;
+}
+
+.creator-text {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 0.3rem;
 }

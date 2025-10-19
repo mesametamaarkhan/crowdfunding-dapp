@@ -1,15 +1,23 @@
 import { useState, useEffect } from "react";
+import "../App.css";
 
 export default function ConnectWallet({ onConnected }) {
   const [account, setAccount] = useState(null);
 
   async function connect() {
     if (window.ethereum) {
-      const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
-      setAccount(accounts[0]);
-      onConnected(accounts[0]);
+      try {
+        const accounts = await window.ethereum.request({
+          method: "eth_requestAccounts",
+        });
+        setAccount(accounts[0]);
+        onConnected(accounts[0]);
+      } catch (err) {
+        console.error(err);
+        alert("Failed to connect MetaMask");
+      }
     } else {
-      alert("MetaMask not found. Please install it.");
+      alert("MetaMask not found. Please install it to continue.");
     }
   }
 
@@ -22,14 +30,19 @@ export default function ConnectWallet({ onConnected }) {
         }
       });
     }
-  }, []);
+  }, [onConnected]);
 
   return (
-    <div className="p-4 bg-gray-900 text-white rounded-xl shadow-md flex justify-between items-center">
+    <div className="wallet-panel">
       {account ? (
-        <span>Connected: {account.substring(0, 6)}...{account.slice(-4)}</span>
+        <span className="wallet-status">
+          ✅ Connected:{" "}
+          <b>
+            {account.substring(0, 6)}...{account.slice(-4)}
+          </b>
+        </span>
       ) : (
-        <button onClick={connect} className="bg-blue-500 px-4 py-2 rounded-lg">
+        <button onClick={connect} className="btn btn-primary">
           Connect MetaMask
         </button>
       )}

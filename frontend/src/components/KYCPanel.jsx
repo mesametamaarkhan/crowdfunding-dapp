@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ethers } from "ethers";
 import { KYC_CONTRACT_ADDRESS, KYC_ABI } from "../config";
+import "../App.css"; // Make sure global styles are imported
 
 export default function KYCPanel({ account }) {
   const [name, setName] = useState("");
@@ -18,22 +19,22 @@ export default function KYCPanel({ account }) {
       const contract = await getContract();
       const tx = await contract.submitKYC(name, cnic);
       await tx.wait();
-      alert("KYC submitted!");
+      alert("✅ KYC submitted successfully!");
     } catch (err) {
       console.error(err);
-      alert("Error submitting KYC");
+      alert("❌ Error submitting KYC");
     }
   }
 
   async function approveUser() {
     try {
       const contract = await getContract();
-      const tx = await contract.approveKYC("0x70997970C51812dc3A010C7d01b50e0d17dc79C8");
+      const tx = await contract.approveKYC("0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC");
       await tx.wait();
-      alert("User approved!");
+      alert("✅ User approved!");
     } catch (err) {
       console.error(err);
-      alert("Only admin can approve.");
+      alert("⚠️ Only admin can approve users");
     }
   }
 
@@ -50,30 +51,41 @@ export default function KYCPanel({ account }) {
   }
 
   return (
-    <div className="p-4 bg-gray-100 rounded-xl shadow-md my-4">
-      <h2 className="font-bold mb-2 text-lg">KYC Verification</h2>
+    <div className="panel">
+      <h2 className="section-title">KYC Verification</h2>
+
       <input
-        placeholder="Name"
+        type="text"
+        placeholder="Full Name"
         value={name}
         onChange={(e) => setName(e.target.value)}
-        className="border p-2 m-1 rounded w-full"
+        className="input-field"
       />
       <input
+        type="text"
         placeholder="CNIC"
         value={cnic}
         onChange={(e) => setCnic(e.target.value)}
-        className="border p-2 m-1 rounded w-full"
+        className="input-field"
       />
-      <button onClick={submitKYC} className="bg-green-500 text-white px-4 py-2 m-1 rounded">
-        Submit KYC
-      </button>
-      <button onClick={approveUser} className="bg-yellow-500 text-white px-4 py-2 m-1 rounded">
-        Admin Approve
-      </button>
-      <button onClick={checkStatus} className="bg-blue-500 text-white px-4 py-2 m-1 rounded">
-        Check Status
-      </button>
-      {status && <p className="mt-2">Status: <b>{status}</b></p>}
+
+      <div className="button-group">
+        <button onClick={submitKYC} className="btn btn-success">
+          Submit KYC
+        </button>
+        <button onClick={approveUser} className="btn btn-warning">
+          Admin Approve
+        </button>
+        <button onClick={checkStatus} className="btn btn-info">
+          Check Status
+        </button>
+      </div>
+
+      {status && (
+        <p className="status-text">
+          Status: <b>{status}</b>
+        </p>
+      )}
     </div>
   );
 }
